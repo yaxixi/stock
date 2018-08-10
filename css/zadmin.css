@@ -1,0 +1,37 @@
+html{margin:0; padding:0;}
+body{margin:0; padding:0;}
+body,th,td,a,p,select,input,textarea{font-size:14px;}
+ul,ol,li,h1,h2,h3,h4,h5,h6,form,img,div,textarea{margin:0;padding:0;}
+img{border:0;}
+ul,ol,li{list-style:none;}
+a:link {text-decoration:none;color:blue;}
+a:visited {text-decoration:none;color:blue;}
+a:hover {color:#00DB00;}
+a:active {text-decoration:blink;}
+
+body {background-color:#DEE3F7;font-family: "Microsoft YaHei", monospace !important;}
+table, tr, td, th {border:1px solid #4169E1;padding:10px 10px 10px 10px;border-collapse:collapse;}
+
+.clearfix:after {content: "."; clear: both; height: 0; visibility: hidden; display: block;}
+.clearfix {display: inline-block;}
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+
+.table {margin:10px auto }
+.menu {margin:10px auto 10px}
+.left {width:110px;position: absolute; left: 10px;top:150px}
+.head_tp{border:1px solid #000; width:80px;}
+.head_sp{border:1px solid #000;}
+.mga{margin-top:10px;}
+.adata a:link {text-decoration:none;color:blue;}
+.adata a:visited {text-decoration:underline;color:red;}
+.adata a:hover {color:#00DB00;}
+.adata a:active {text-decoration:blink;}
+.trbdr{border-left:5px solid #4169E1;}
+.redit{color:#F00;}
+
+.page{margin:5px 0px 5px 0px;}
+.page span,.page a{border:1px solid #CEE3EA; line-height:20px; padding:0 5px; background:#F5FBFF;}
+span.totalrecord{color: #090;}
+span.totalpages{color: #090; margin-right:3px;}
+span.page_current{color:#666666; background:#F90; font-weight:bold;}

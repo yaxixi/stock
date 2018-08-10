@@ -1,0 +1,46 @@
+<{include file="./header.tpl"}>
+
+<div class='input'>
+	<form method="POST">
+	账号：<input type="text" name="account">
+	渠道：<input type="text" name="channel">
+	RID：<input type="text" name="rid">
+	昵称：<input type="text" name="name">
+	<input type="submit" value="查询">
+	</form>
+</div>
+<div>
+<span>基础信息</span>
+<table>
+	<tr>
+		<td>rid</td>
+		<td><{$data.rid}></td>
+	</tr>
+	<tr>
+		<td>昵称</td>
+		<td><{$data.name}></td>
+	</tr>
+	<tr>
+		<td>账号</td>
+		<td><{$data.account}></td>
+	</tr>
+	<tr>
+		<td>渠道</td>
+		<td><{$data.channel}></td>
+	</tr>
+	<tr>
+		<td>账号权限</td>
+		<td><{$data.privilege}></td>
+	</tr>
+	<tr>
+		<td>所在区组</td>
+		<td><{$data.dist_id}></td>
+	</tr>
+	<tr>
+		<td>创建时间</td>
+		<td><{$data.create_time}></td>
+	</tr>
+</table>
+</div>
+
+<{include file="./footer.tpl"}>

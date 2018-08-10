@@ -1,0 +1,48 @@
+<{include file="./header.tpl"}>
+<script LANGUAGE="JavaScript">
+function find_source_map(key){
+    $.get(window.location.origin + "/gm/source/find_source_map.php?src_file=" + key, function(result){
+        var ret = "找回成功";
+        try{
+            result = JSON.parse(result);
+            if (result['ret'] != 0)
+                ret = "找回失败";
+        }
+        catch(err)
+        {
+            ret = "找回失败";
+        }
+        alert(ret);
+    });
+}
+</script>
+
+<div class='input'>
+	<form method="POST">
+	作者RID：<input type="text" name="rid">
+	<input type="submit" value="查询">
+	</form>
+</div>
+<div>
+</br>
+<span>域名前缀：<{if $data.url}><{$data.url}><{/if}><{if !$data.url}>http://slimeeditor.oss-cn-shanghai.aliyuncs.com/maps/published_source_maps/<{/if}></span>
+</br>
+</br>
+<h4>源地图列表</h4>
+<table cellpadding="20" cellspacing="10">
+	<tr align="center">
+		<th>文件名</th>
+		<th>更改时间</th>
+        <th>操作</th>
+	</tr>
+	<{foreach from = $files key=key item = val}>
+	<tr align="center">
+        <td><{$val.file}></td>
+        <td><{$val.modifyTime}></td>
+        <td><button type="button" onClick=find_source_map('<{$val.file}>')>找回</button></td>
+	</tr>
+	<{/foreach}>
+</table>
+</div>
+
+<{include file="./footer.tpl"}>

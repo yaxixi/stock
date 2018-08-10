@@ -1,0 +1,40 @@
+<{include file="./header.tpl"}>
+<script LANGUAGE="JavaScript">
+    function getFlashLine(key){
+        var columnChart = new FusionCharts(
+            {
+                type: 'scrollcombidy2d',//'scrollcolumn2d', //'scrollstackedcolumn2d',
+                width: '100%',
+                height: 200,
+                renderAt: key,
+                dataFormat: 'json',
+                dataSource: '<{$data_source}>',
+          });
+        // Render the chart
+        columnChart.render();
+    }
+</script>
+
+<div class="menu" align="center"></div>
+
+<div>
+    <div class="head_tp">统计概况</div>
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="25%" align="center">&nbsp;</td>
+            <td width="25%" align="center">CPU</td>
+            <td width="25%" align="center">联网人数</td>
+            <td width="25%" align="center">房间数</td>
+        </tr>
+        <tr>
+            <td align="center">最高</td>
+            <td align="center"><{$max_cpu}><br /><{$max_cpu_id}></td>
+            <td align="center"><{$max_user_num}><br /><{$max_user_num_id}></td>
+            <td align="center"><{$max_room_num}><br /><{$max_room_num_id}></td>
+        </tr>
+    </table>
+</div>
+<div id="server_status" align="center"></div>
+<script type="text/javascript">getFlashLine('server_status');</script>
+
+<{include file="./footer.tpl"}>

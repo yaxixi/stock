@@ -1,0 +1,61 @@
+<{include file="./header.tpl"}>
+<script LANGUAGE="JavaScript">
+    function getFlashLine(key){
+        var columnChart = new FusionCharts(
+            {
+                type: 'scrollline2d', //'scrollstackedcolumn2d',
+                id: 'ex1',
+                width: '100%',
+                height: 400,
+                renderAt: 'online',
+                dataFormat: 'json',
+                dataSource: '<{$data_source}>',
+          });
+        // Render the chart
+        columnChart.render();
+    }
+</script>
+
+<div class="menu" align="center"></div>
+
+<div>
+    <div class="head_tp">统计概况</div>
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="25%" align="center">&nbsp;</td>
+            <td width="25%" align="center">登录</td>
+            <td width="25%" align="center">新增</td>
+        </tr>
+        <tr>
+            <td align="center">今日当前</td>
+            <td align="center"><{$login}></td>
+            <td align="center"><{$new_today}></td>
+        </tr>
+    </table>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin:10px 0 10px 0;">
+        <tr>
+            <td width="25%" align="center">&nbsp;</td>
+            <td width="25%" align="center">登录</td>
+            <td width="25%" align="center">新增</td>
+        </tr>
+        <tr>
+            <td align="center">昨日</td>
+            <td align="center"><{$login_yesterday}></td>
+            <td align="center"><{$new_yesterday}></td>
+        </tr>
+        <tr>
+            <td align="center">上周同期</td>
+            <td align="center"><{$login_lday}></td>
+            <td align="center"><{$new_lday}></td>
+        </tr>
+        <tr>
+            <td align="center">历史最高</td>
+            <td align="center"><{$login_top.value}><br /><{$login_top.date}></td>
+            <td align="center"><{$new_max.value}><br /><{$new_max.date}></td>
+        </tr>
+    </table>
+</div>
+<div id="online" align="center"></div>
+<script type="text/javascript">getFlashLine('online');</script>
+
+<{include file="./footer.tpl"}>

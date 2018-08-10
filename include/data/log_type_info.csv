@@ -1,0 +1,4 @@
+﻿﻿log_id,log_type,p1,p2,p3,meno,table
+1,创建新帐号,玩家rid,玩家account,server_id,NULL,login_log
+2,帐号登录,玩家rid,NULL,server_id,NULL,login_log
+3,接管帐号,接管RID,被接管RID,server_id,NULL,login_log
