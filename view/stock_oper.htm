@@ -35,7 +35,7 @@ function juge(theform) {
 	代码：<input type="text" name="code">
 	数量：<input type="text" name="count">
 	价格：<input type="text" name="price">
-	开始日期：
+	日期：
 		<script type="text/javascript" src="js/calendar.js"></script>
 		<input type="text" id="date" name="date" value="<{$data.date}>" onclick="calendar.show(this);" size="10" maxlength="10" readonly="readonly" />
 	时间:
@@ -44,12 +44,12 @@ function juge(theform) {
 	</form>
 </div>
 <div class='input'>
-	<form method="POST">
+	<form method="POST" onsubmit="return juge(this)>
 	<input type="hidden" name="oper" value="sell" />
 	代码：<input type="text" name="code">
 	数量：<input type="text" name="count">
 	价格：<input type="text" name="price">
-	开始日期：
+	日期：
 		<script type="text/javascript" src="js/calendar.js"></script>
 		<input type="text" id="date" name="date" value="<{$data.date}>" onclick="calendar.show(this);" size="10" maxlength="10" readonly="readonly" />
 	时间:
@@ -57,11 +57,22 @@ function juge(theform) {
 	<input type="submit" value="卖出">
 	</form>
 </div>
+<div class='input'>
+	<form method="POST">
+	<input type="hidden" name="oper" value="modify" />
+	ID：<input type="text" name="id">
+	数量：<input type="text" name="count">
+	买入价：<input type="text" name="buy_price">
+	卖出价：<input type="text" name="sell_price">
+	<input type="submit" value="修改">
+	</form>
+</div>
 
 </br>
 <h4>交易记录</h4>
 <table cellpadding="20" cellspacing="10">
 	<tr align="center">
+	    <th>ID</th>
 		<th>代码</th>
         <th>名字</th>
 		<th>数量</th>
@@ -75,6 +86,7 @@ function juge(theform) {
 	</tr>
 	<{foreach from = $data_arr key=key item = val}>
             <tr align="center">
+			    <td><{$val.id}></td>
                 <td><{$val.code}></td>
                 <td><{$val.name}></td>
                 <td><{$val.position}></td>

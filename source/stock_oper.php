@@ -4,6 +4,7 @@ include_once '../include/config.php';
 include_once '../include/network.php';
 
 $code = trim($_REQUEST['code']);
+$id = trim($_REQUEST['id']);
 $count = (int)trim($_REQUEST['count']);
 $price = trim($_REQUEST['price']);
 $curr_date = trim($_REQUEST['date']);
@@ -79,6 +80,52 @@ if ($code) {
     }
     else
         alert("找不到指定代码！");
+}
+
+if ($id) {
+    // 修改记录
+    $buy_price = trim($_REQUEST['buy_price']);
+    $sell_price = trim($_REQUEST['sell_price']);
+    $set_list = array();
+    if ($buy_price) {
+        $set_list[] = "buy_price=$buy_price";
+    }
+    if ($sell_price) {
+        $set_list[] = "sell_price=$sell_price";
+    }
+    if ($count) {
+        $set_list[] = "position=$count";
+    }
+    if (count($set_list) > 0) {
+        // 先取得原记录数据
+        $sql = "select * from trade where id=$id";
+        $res = mysql_query($sql);
+        while($row = mysql_fetch_assoc($res)){
+            $data = $row;
+        }
+        if ($data) {
+            if ($sell_price) {
+                $price = (float)$sell_price;
+            }
+            else if ($data['sell_price'] > 0)
+                $price = (float)$data['sell_price'];
+            else
+                $price = (float)$data['curr_price'];
+            if ($buy_price)
+                $buy_price = (float)$buy_price;
+            else
+                $buy_price = (float)$data['buy_price'];
+            if (!$count)
+                $count = (int)$data['position'];
+            $profit = ((float)$price - (float)$buy_price) * 100 / (float)$buy_price;
+            $profit_money = ((float)$price - (float)$buy_price) * $count;
+            $sql = "update trade set profit=$profit,profit_money=$profit_money," . implode(",", $set_list) . " where id=$id";
+            mysql_query($sql);
+            echo "sql :" . $sql;
+        }
+        else
+            alert("找不到指定的ID！");
+    }
 }
 
 $page_size = 20;
