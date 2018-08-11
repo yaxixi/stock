@@ -80,7 +80,11 @@ function juge(theform) {
                 <td><{$val.position}></td>
                 <td><{$val.sell_price}>/<{$val.buy_price}></td>
                 <td><{$val.curr_price}></td>
-				<td><{$val.profit_money}>/<{$val.profit}>%</td>
+				<{if $val.profit >= 0}>
+					<td><font color="red"><{$val.profit_money}>/<{$val.profit}>%</font></td>
+                <{else}>
+                    <td><font color="green"><{$val.profit_money}>/<{$val.profit}>%</font></td>
+                <{/if}>
 				<td><{$val.buy_time}></td>
 				<td><{$val.sell_time}></td>
 				<td><{$val.low_profit}>%/<{$val.low_day}></td>
