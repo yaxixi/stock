@@ -122,8 +122,6 @@ function sendHttpMessage($host, $port, $param) {
 }
 
 function fetchStockInfo($code_list) {
-
-    $code_list = array('600000','630001','300059','4322233');
     $list = array();
     foreach($code_list as $code) {
         if (substr($code, 0, 1) == "6") {
@@ -136,7 +134,7 @@ function fetchStockInfo($code_list) {
     }
     $url = "http://hq.sinajs.cn/list=" . implode(",",$list);
     $ret = curl_get($url);
-    echo "url:" . $url. " ret:" . $ret;
+    //echo "url:" . $url. " ret:" . $ret;
     $stockInfo = array();
     foreach($code_list as $code) {
         $arr = array();
@@ -148,7 +146,6 @@ function fetchStockInfo($code_list) {
             );
         }
     }
-    var_dump($stockInfo);
     return $stockInfo;
 }
 
