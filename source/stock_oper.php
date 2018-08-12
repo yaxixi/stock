@@ -145,11 +145,16 @@ while($row = mysql_fetch_assoc($res)){
 }
 
 $stockInfo = fetchStockInfo(array_keys($code_list));
-foreach($order_arr as $row) {
+foreach($order_arr as $key=>$row) {
     $code = $row['code'];
+    $order_arr[$key]['curr_profit'] = 0;
     if (isset($stockInfo[$code]) && $stockInfo[$code]['name'] != "") {
         $curr_price = $stockInfo[$code]['curr_price'];
-        $row['curr_price'] = $curr_price;
+        $$order_arr[$key]['curr_price'] = $curr_price;
+        if ((float) $row['sell_price'] > 0) {
+            $curr_profit = ((float)$curr_price - (float)$row['sell_price']) * 100 / (float)$row['sell_price'];
+            $order_arr[$key]['curr_profit'] = round($curr_profit, 3);
+        }
     }
 }
 

@@ -81,8 +81,9 @@ function juge(theform) {
 		<th>盈亏金额/百分比</th>
 		<th>买入时间</th>
 		<th>卖出时间</th>
-		<th>卖出后最大跌幅/天数</th>
-		<th>卖出后最大涨幅/天数</th>
+		<th>卖出后涨跌幅</th>
+		<th>卖出后最大跌幅/间隔天数</th>
+		<th>卖出后最大涨幅/间隔天数</th>
 	</tr>
 	<{foreach from = $data_arr key=key item = val}>
             <tr align="center">
@@ -99,8 +100,23 @@ function juge(theform) {
                 <{/if}>
 				<td><{$val.buy_time}></td>
 				<td><{$val.sell_time}></td>
-				<td><{$val.low_profit}>%/<{$val.low_day}></td>
-                <td><{$val.high_profit}>%/<{$val.high_day}></td>
+				<{if $val.curr_profit < 0}>
+					<td><font color="green"><{$val.curr_profit}>%</font></td>
+				<{elseif $val.curr_profit > 0}>
+					<td><font color="red"><{$val.curr_profit}>%</font></td>
+                <{else}>
+                    <td><{$val.curr_profit}>%</td>
+                <{/if}>
+				<{if $val.low_profit < 0}>
+					<td><font color="green"><{$val.low_profit}>%/<{$val.low_day}></font></td>
+                <{else}>
+                    <td><{$val.low_profit}>%/<{$val.low_day}></td>
+                <{/if}>
+				<{if $val.high_profit > 0}>
+					<td><font color="red"><{$val.high_profit}>%/<{$val.high_day}></font></td>
+                <{else}>
+                    <td><{$val.high_profit}>%/<{$val.high_day}></td>
+                <{/if}>
             </tr>
 	<{/foreach}>
 </table>
