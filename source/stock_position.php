@@ -56,6 +56,16 @@ foreach($code_map as $code=>$row_list) {
     }
 }
 
+function my_sort($a,$b)
+{
+    //返回 0 -1 1
+    if ($a['money'] == $b['money'])
+        return 0;
+    return ($a['money'] >= $b['money']) ? -1 : 1;
+}
+
+usort($data_arr, 'my_sort');
+
 $Smarty->assign(array(
     'data_arr'=>$data_arr,
 	)
