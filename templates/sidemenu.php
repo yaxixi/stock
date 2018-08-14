@@ -23,7 +23,7 @@
     <?php if(show_a($priv,'tongji_main')) {?>d.add(subId,treeId,'对比分析','webroot/index.php?s=dau');<?php }?>
     d.add(++treeId,1,'交易数据');
     <?php if(show_a($priv,'priv_gm_info')) {?>d.add(subId++,treeId,'买卖操作','webroot/index.php?s=stock_oper');<?php }?>
-    <?php if(show_a($priv,'priv_gm_info')) {?>d.add(subId++,treeId,'找回','webroot/index.php?s=gathering');<?php }?>
+    <?php if(show_a($priv,'priv_gm_info')) {?>d.add(subId++,treeId,'当前持仓','webroot/index.php?s=stock_position');<?php }?>
     // 10000以上的编号给系统设置用
     d.add(10000,1,'系统设置');
     d.add(20000,10000,'权限管理');

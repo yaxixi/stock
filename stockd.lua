@@ -48,7 +48,7 @@ function do_complete_trade()
             local profit = (curr_price - sell_price) * 100 / sell_price;
             local sql_cmd = "";
             if profit < 0 then
-                if profit < low_profit then
+                if profit < low_profit and curr_price > 0 then
                     local trade_day = get_trade_day_count(sell_time, os.time(), day_map);
                     sql_cmd = string.format("update trade set low_profit=%s,low_day=%d where id=%s", profit, trade_day, info.id);
                     table.insert(sql_list, sql_cmd);
