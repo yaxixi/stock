@@ -20,7 +20,7 @@
     d.config.target = "mainframe";
     d.add(1,-1,<?php echo "'".TITLE."'" ?>,'welcome.php');
     d.add(++treeId,1,'统计数据');
-    <?php if(show_a($priv,'tongji_main')) {?>d.add(subId,treeId,'对比分析','webroot/index.php?s=dau');<?php }?>
+    <?php if(show_a($priv,'tongji_main')) {?>d.add(subId,treeId,'投资统计','webroot/index.php?s=invest_statistics');<?php }?>
     d.add(++treeId,1,'交易数据');
     <?php if(show_a($priv,'priv_gm_info')) {?>d.add(subId++,treeId,'买卖操作','webroot/index.php?s=stock_oper');<?php }?>
     <?php if(show_a($priv,'priv_gm_info')) {?>d.add(subId++,treeId,'当前持仓','webroot/index.php?s=stock_position');<?php }?>

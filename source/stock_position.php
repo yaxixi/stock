@@ -20,6 +20,8 @@ while($row = mysql_fetch_assoc($res)){
 }
 
 $data_arr = array();
+$total_money = 0;
+$total_profit_money = 0;
 $stockInfo = fetchStockInfo(array_keys($code_map));
 foreach($code_map as $code=>$row_list) {
     if (isset($stockInfo[$code]) && $stockInfo[$code]['name'] != "") {
@@ -40,9 +42,13 @@ foreach($code_map as $code=>$row_list) {
         }
         $avg_price = round($avg_price, 3);
 
+        $money = round($total_position * $curr_price, 3);
+        $total_money += $money;
+
         // 计算盈亏
         $profit = round(($curr_price - $avg_price) * 100 / $avg_price, 3);
         $profit_money = round(($curr_price - $avg_price) * $total_position, 3);
+        $total_profit_money += $profit_money;
         $data_arr[] = array(
             'code'=>$code,
             'name'=>$name,
@@ -51,10 +57,12 @@ foreach($code_map as $code=>$row_list) {
             'avg_price'=>$avg_price,
             'profit'=>$profit,
             'profit_money'=>$profit_money,
-            'money'=>round($total_position * $curr_price, 3),
+            'money'=>$money,
         );
     }
 }
+
+$total_profit = round($total_profit_money * 100 / $total_money, 3);
 
 function my_sort($a,$b)
 {
@@ -68,5 +76,8 @@ usort($data_arr, 'my_sort');
 
 $Smarty->assign(array(
     'data_arr'=>$data_arr,
+    'total_money'=>$total_money,
+    'total_profit_money'=>$total_profit_money,
+    'total_profit'=>$total_profit,
 	)
 );
