@@ -35,6 +35,8 @@ $total_gain_money = 0;
 $total_lose_money = 0;
 $total_gain_day = 0;
 $total_lose_day = 0;
+$total_low_profit = 0;
+$total_high_profit = 0;
 $max_gain = 0;
 $max_lose = 0;
 $min_time = 9999999999;
@@ -45,6 +47,8 @@ foreach($order_arr as $row) {
     $profit_money = (float)$row['profit_money'];
     $buy_time = (int)$row['buy_time'];
     $sell_time = (int)$row['sell_time'];
+    $total_low_profit += (float)$row['low_profit'];
+    $total_high_profit += (float)$row['high_profit'];
     $day = ceil(($sell_time - $buy_time) / (3600 * 24));
     if ($profit > 0) {
         $gain_count += 1;
@@ -74,6 +78,8 @@ if ($total_count == 0) {
     $gain_lose_str = "0 : 0";
     $avg_gain_day = 0;
     $avg_lose_day = 0;
+    $avg_low_profit = 0;
+    $avg_hight_profit = 0;
 }
 else {
     $avg_success = round($gain_count * 100 / $total_count, 2);
@@ -90,6 +96,8 @@ else {
         $gain_lose_str = "1 : 1";
     $avg_gain_day = $gain_count == 0 ? 0 : ceil($total_gain_day / $gain_count);
     $avg_lose_day = $gain_count == $total_count ? 0 : ceil($total_lose_day / ($total_count - $gain_count));
+    $avg_low_profit = round($total_low_profit / $total_count);
+    $avg_high_profit = round($total_high_profit / $total_count);
 }
 
 $data_arr[] = array(
@@ -104,6 +112,10 @@ $data_arr[] = array(
     'avg_lose_day'=>$avg_lose_day,
     'max_gain'=>$max_gain,
     'max_lose'=>$max_lose,
+    'profit_money'=>$total_gain_money + $total_lose_money,
+    'avg_low_profit'=>$avg_low_profit,
+    'avg_high_profit'=>$avg_high_profit,
+
 );
 
 $Smarty->assign(array(

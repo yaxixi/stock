@@ -1,0 +1,36 @@
+<{include file="./header.tpl"}>
+           
+<script type="text/javascript">
+function juge(theform) {
+	if (theform.success.value == "") {
+		alert("请输入成功率！");
+		theform.success.focus();
+		return false;
+	}
+	if (theform.gain.value == "") {
+		alert("请输入盈利率！");
+		theform.gain.focus();
+		return false;
+	}
+	if (theform.lose.value == "") {
+		alert("请输入亏损率！");
+		theform.lose.focus();
+		return false;
+	}
+}
+</script>  
+
+<div class='input'>
+	<form method="POST" onsubmit="return juge(this)">
+	成功率(0到1之间)：<input type="text" name="success" value="<{$success}>">
+	盈利率：<input type="text" name="gain" value="<{$gain}>">
+	亏损率：<input type="text" name="lose" value="<{$lose}>">
+	<input type="submit" value="计算">
+	</form>
+</div>
+</br>
+<h4>以下结果是根据凯利公式计算得到，仓位小于等于0时，表示期望收益为负</h4>
+<h4>最佳仓位：<{$f}>%</h4>
+<h4>收益增长率：<{$r}>%</h4>
+
+<{include file="./footer.tpl"}>

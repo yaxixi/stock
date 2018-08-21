@@ -7,7 +7,7 @@
 		<input type="text" id="begin_date" name="begin_date" value="<{$begin_date}>" onclick="calendar.show(this);" size="10" maxlength="10" readonly="readonly" />
 	结束日期：
 		<script type="text/javascript" src="js/calendar.js"></script>
-		<input type="text" id="end_date" name="begin_date" value="<{$end_date}>" onclick="calendar.show(this);" size="10" maxlength="10" readonly="readonly" />
+		<input type="text" id="end_date" name="end_date" value="<{$end_date}>" onclick="calendar.show(this);" size="10" maxlength="10" readonly="readonly" />
 	<input type="submit" value="查询">
 	</form>
 </div>
@@ -20,24 +20,34 @@
 		<th>平均成功率</th>
         <th>平均收益率</th>
 		<th>平均亏损率</th>
+		<th>盈亏金额</th>
         <th>收益/亏损比例</th>
         <th>最大收益</th>
 		<th>最大亏损</th>
 		<th>收益的平均持有天数</th>
 		<th>亏损的平均持有天数</th>
+		<th>卖出后平均最大涨幅</th>
+		<th>卖出后平均最大跌幅</th>
 	</tr>
 	<{foreach from = $data_arr key=key item = val}>
             <tr align="center">
 			    <td><{$val.date}></td>
 				<td><{$val.total_count}></td>
-                <td><{$val.avg_success}></td>
-                <td><{$val.avg_gain}></td>
-                <td><{$val.avg_lose}></td>
+                <td><{$val.avg_success}>%</td>
+                <td><{$val.avg_gain}>%</td>
+                <td><{$val.avg_lose}>%</td>
+				<{if $val.profit_money >= 0}>
+					<td><font color="red"><{$val.profit_money}></font></td>
+                <{else}>
+                    <td><font color="green"><{$val.profit_money}></font></td>
+                <{/if}>
                 <td><{$val.gain_lose_str}></td>
-                <td><{$val.max_gain}></td>
-				<td><{$val.max_lose}></td>
+                <td><{$val.max_gain}>%</td>
+				<td><{$val.max_lose}>%</td>
 				<td><{$val.avg_gain_day}></td>
 				<td><{$val.avg_lose_day}></td>
+				<td><{$val.avg_high_profit}>%</td>
+				<td><{$val.avg_low_profit}>%</td>
             </tr>
 	<{/foreach}>
 </table>

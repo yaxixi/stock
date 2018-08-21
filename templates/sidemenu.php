@@ -19,11 +19,14 @@
     d = new dTree('d');
     d.config.target = "mainframe";
     d.add(1,-1,<?php echo "'".TITLE."'" ?>,'welcome.php');
-    d.add(++treeId,1,'统计数据');
-    <?php if(show_a($priv,'tongji_main')) {?>d.add(subId,treeId,'投资统计','webroot/index.php?s=invest_statistics');<?php }?>
     d.add(++treeId,1,'交易数据');
     <?php if(show_a($priv,'priv_gm_info')) {?>d.add(subId++,treeId,'买卖操作','webroot/index.php?s=stock_oper');<?php }?>
     <?php if(show_a($priv,'priv_gm_info')) {?>d.add(subId++,treeId,'当前持仓','webroot/index.php?s=stock_position');<?php }?>
+    d.add(++treeId,1,'统计数据');
+    <?php if(show_a($priv,'tongji_main')) {?>d.add(subId++,treeId,'投资统计','webroot/index.php?s=invest_statistics');<?php }?>
+    d.add(++treeId,1,'投资工具');
+    <?php if(show_a($priv,'priv_gm_info')) {?>d.add(subId++,treeId,'盈亏平衡三角形','game_view/triangle/StartGame.html');<?php }?>
+    <?php if(show_a($priv,'priv_gm_info')) {?>d.add(subId++,treeId,'最佳仓位计算','webroot/index.php?s=kelly_formula');<?php }?>
     // 10000以上的编号给系统设置用
     d.add(10000,1,'系统设置');
     d.add(20000,10000,'权限管理');
