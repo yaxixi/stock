@@ -10,6 +10,7 @@ $begin_date = trim($_REQUEST['begin_date']) ? trim($_REQUEST['begin_date']) : (d
 $end_date = trim($_REQUEST['end_date']) ? trim($_REQUEST['end_date']) : date("Y-m-d");
 $begin_time = strtotime($begin_date . " 00:00:00");
 $end_time = strtotime($end_date . " 23:59:59");
+$page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
 
 $start_index = 0;
 $size = 100;
@@ -37,6 +38,7 @@ $total_gain_day = 0;
 $total_lose_day = 0;
 $total_low_profit = 0;
 $total_high_profit = 0;
+$total_money = 0;
 $max_gain = 0;
 $max_lose = 0;
 $min_time = 9999999999;
@@ -45,6 +47,9 @@ foreach($order_arr as $row) {
     $total_count += 1;
     $profit = (float)$row['profit'];
     $profit_money = (float)$row['profit_money'];
+    $buy_price = (float)$row['buy_price'];
+    $position = (int)$row['position'];
+    $total_money += $buy_price * $position;
     $buy_time = (int)$row['buy_time'];
     $sell_time = (int)$row['sell_time'];
     $total_low_profit += (float)$row['low_profit'];
@@ -63,13 +68,13 @@ foreach($order_arr as $row) {
         $max_lose = $profit < $max_lose ? $profit : $max_lose;
         $total_lose_day += $day;
     }
-    $sell_time = (int)$row['sell_time'];
     if ($sell_time > $max_time)
         $max_time = $sell_time;
     if ($sell_time < $min_time)
         $min_time = $sell_time;
 }
 
+$total_money = round($total_money, 2);
 if ($total_count == 0) {
     $avg_success = 0;
     $avg_gain = 0;
@@ -79,7 +84,7 @@ if ($total_count == 0) {
     $avg_gain_day = 0;
     $avg_lose_day = 0;
     $avg_low_profit = 0;
-    $avg_hight_profit = 0;
+    $avg_high_profit = 0;
 }
 else {
     $avg_success = round($gain_count * 100 / $total_count, 2);
@@ -96,8 +101,8 @@ else {
         $gain_lose_str = "1 : 1";
     $avg_gain_day = $gain_count == 0 ? 0 : ceil($total_gain_day / $gain_count);
     $avg_lose_day = $gain_count == $total_count ? 0 : ceil($total_lose_day / ($total_count - $gain_count));
-    $avg_low_profit = round($total_low_profit / $total_count);
-    $avg_high_profit = round($total_high_profit / $total_count);
+    $avg_low_profit = round($total_low_profit / $total_count, 2);
+    $avg_high_profit = round($total_high_profit / $total_count, 2);
 }
 
 $data_arr[] = array(
@@ -112,15 +117,52 @@ $data_arr[] = array(
     'avg_lose_day'=>$avg_lose_day,
     'max_gain'=>$max_gain,
     'max_lose'=>$max_lose,
+    'total_money'=>$total_money,
     'profit_money'=>$total_gain_money + $total_lose_money,
     'avg_low_profit'=>$avg_low_profit,
     'avg_high_profit'=>$avg_high_profit,
 
 );
 
+$page_size = 20;
+$start_index = ($page - 1) * $page_size;
+$sql_cond = "order by month desc limit $start_index, $page_size";
+$sql = "select * from trade_month where uid='$uid' " . $sql_cond;
+$res = mysql_query($sql);
+while($row = mysql_fetch_assoc($res)){
+    $gain_lose = (float)$row["gain"] - (float)$row["lose"];
+    if ((float)$row["gain"] == 0 || (float)$row["lose"] == 0)
+        $gain_lose_str = $row["gain"] . " : " . $row["lose"];
+    else if ($gain_lose > 0)
+        $gain_lose_str = $gain_lose . " : 1";
+    else if ($gain_lose < 0)
+        $gain_lose_str = "1 : " . round(1 / $gain_lose, 2);
+    else if ($gain_lose == 0)
+        $gain_lose_str = "1 : 1";
+    $data_arr[] = array(
+        'date'=>$row['month'],
+        'total_count'=>$row["count"],
+        'avg_success'=>$row["success"],
+        'avg_gain'=>$row["gain"],
+        'avg_lose'=>$row["lose"],
+        'gain_lose'=>$gain_lose,
+        'gain_lose_str'=>$gain_lose_str,
+        'avg_gain_day'=>$row["gain_day"],
+        'avg_lose_day'=>$row["lose_day"],
+        'max_gain'=>$row["max_gain"],
+        'max_lose'=>$row["max_lose"],
+        'total_money'=>$row["total_money"],
+        'profit_money'=>$row["profit_money"],
+        'avg_low_profit'=>$row["low_profit"],
+        'avg_high_profit'=>$row["high_profit"],
+    );
+}
+
 $Smarty->assign(array(
     'begin_date'=>$begin_date,
     'end_date'=>$end_date,
     'data_arr'=>$data_arr,
+    'page'=>$page,
+    'page_size'=>$page_size,
 	)
 );

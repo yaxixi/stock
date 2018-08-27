@@ -20,6 +20,7 @@
 		<th>平均成功率</th>
         <th>平均收益率</th>
 		<th>平均亏损率</th>
+		<th>总金额</th>
 		<th>盈亏金额</th>
         <th>收益/亏损比例</th>
         <th>最大收益</th>
@@ -36,6 +37,7 @@
                 <td><{$val.avg_success}>%</td>
                 <td><{$val.avg_gain}>%</td>
                 <td><{$val.avg_lose}>%</td>
+				<td><{$val.total_money}>%</td>
 				<{if $val.profit_money >= 0}>
 					<td><font color="red"><{$val.profit_money}></font></td>
                 <{else}>
@@ -52,5 +54,6 @@
 	<{/foreach}>
 </table>
 </div>
+<{ $page_size|page_ex:$page:'s=invest_statistics' }>
 
 <{include file="./footer.tpl"}>
