@@ -90,13 +90,13 @@ else {
     $avg_success = round($gain_count * 100 / $total_count, 2);
     $avg_gain = $gain_count == 0 ? 0 : round($total_gain / $gain_count, 3);
     $avg_lose = $gain_count == $total_count ? 0 : round($total_lose / ($total_count - $gain_count), 3);
-    $gain_lose = $avg_gain - $avg_lose;
+    $gain_lose = $avg_gain + $avg_lose;
     if ($avg_gain == 0 || $avg_lose == 0)
-        $gain_lose_str = $avg_gain . " : " . $gain_lose;
+        $gain_lose_str = $avg_gain . " : " . abs($avg_lose);
     else if ($gain_lose > 0)
-        $gain_lose_str = $gain_lose . " : 1";
+        $gain_lose_str = abs(round($avg_gain / $avg_lose, 2)) . " : 1";
     else if ($gain_lose < 0)
-        $gain_lose_str = "1 : " . round(1 / $gain_lose, 2);
+        $gain_lose_str = "1 : " . abs(round($avg_lose / $avg_gain, 2));
     else if ($gain_lose == 0)
         $gain_lose_str = "1 : 1";
     $avg_gain_day = $gain_count == 0 ? 0 : ceil($total_gain_day / $gain_count);
@@ -130,13 +130,13 @@ $sql_cond = "order by month desc limit $start_index, $page_size";
 $sql = "select * from trade_month where uid='$uid' " . $sql_cond;
 $res = mysql_query($sql);
 while($row = mysql_fetch_assoc($res)){
-    $gain_lose = (float)$row["gain"] - (float)$row["lose"];
+    $gain_lose = (float)$row["gain"] + (float)$row["lose"];
     if ((float)$row["gain"] == 0 || (float)$row["lose"] == 0)
-        $gain_lose_str = $row["gain"] . " : " . $row["lose"];
+        $gain_lose_str = $row["gain"] . " : " . abs($row["lose"]);
     else if ($gain_lose > 0)
-        $gain_lose_str = $gain_lose . " : 1";
+        $gain_lose_str = abs(round((float)$row['gain'] / (float)$row['lose'], 2)) . " : 1";
     else if ($gain_lose < 0)
-        $gain_lose_str = "1 : " . round(1 / $gain_lose, 2);
+        $gain_lose_str = "1 : " . abs(round((float)$row['lose'] / (float)$row['gain'], 2));
     else if ($gain_lose == 0)
         $gain_lose_str = "1 : 1";
     $data_arr[] = array(

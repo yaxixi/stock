@@ -180,7 +180,6 @@ function do_month_trade(time)
         local avg_lose_day = 0;
         local avg_low_profit = 0;
         local avg_high_profit = 0;
-        local gain_lose_str = "0 : 0";
         local profit_money = total_gain_money + total_lose_money;
         local month_str = os.date("!%Y%m", time + 28800);
         total_money = string.format("%.2f", total_money);
@@ -189,16 +188,6 @@ function do_month_trade(time)
             avg_success = string.format("%.2f", gain_count * 100 / total_count);
             avg_gain = gain_count == 0 and 0 or string.format("%.3f", total_gain / gain_count);
             avg_lose = gain_count == total_count and 0 or string.format("%.3f", total_lose / (total_count - gain_count));
-            local gain_lose = avg_gain - avg_lose;
-            if avg_gain == 0 or arg_lose == 0 then
-                gain_lose_str = avg_gain .. " : " .. avg_lose;
-            elseif gain_lose > 0 then
-                gain_lose_str = gain_lose .. " : 1";
-            elseif gain_lose < 0 then
-                gain_lose_str = "1 : " .. string.format(".2f", 1 / gain_lose);
-            elseif gain_lose == 0 then
-                gain_lose_str = "1 : 1";
-            end
             avg_gain_day = gain_count == 0 and 0 or math.ceil(total_gain_day / gain_count);
             avg_lose_day = gain_count == total_count and 0 or math.ceil(total_lose_day / (total_count - gain_count));
             avg_low_profit = string.format("%.2f", total_low_profit / total_count);
