@@ -348,11 +348,8 @@ function fetch_stock_info(code_list)
 end
 
 local function timer_handle()
-    local time_str = os.date("!%H%M", os.time() + 28800);
-    if time_str >= "0001" and time_str <= "0003" then
-        if cur_date ~= os.date("!%Y%m%d", os.time() + 28800) then
-            cur_date = os.date("!%Y%m%d", os.time() + 28800);
-        end
+    if cur_date ~= os.date("!%Y%m%d", os.time() + 28800) then
+        cur_date = os.date("!%Y%m%d", os.time() + 28800);
     end
 
     local hour = tonumber(os.date("!%H", os.time() + 28800));
