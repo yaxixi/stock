@@ -168,7 +168,7 @@ foreach($order_arr as $key=>$row) {
 
 $Smarty->register_function('page_ex','page_ex');
 $Smarty->assign(array(
-    'data'=>array("date"=>date("Y-m-d"), "time"=>"00:00:00"),
+    'data'=>array("date"=>date("Y-m-d"), "time"=>date("H:i:s")),
     'data_arr'=>$order_arr,
     'page'=>$page,
     'page_size'=>$page_size,
