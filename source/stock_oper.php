@@ -15,7 +15,30 @@ $curr_time = trim($_REQUEST['time']);
 $oper = trim($_REQUEST['oper']);
 $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
 
-if ($code) {
+if ($oper == "transfer") {
+    $transfer_count = (float)trim($_REQUEST['transfer_count']);
+    $cut_price = (float)trim($_REQUEST['cut_price']);
+
+    // 取得剩余持仓的记录
+    $sql = "select * from trade where code='$code' and uid='$uid' and sell_time=0 and position>0";
+    $res = mysql_query($sql);
+    while($row = mysql_fetch_assoc($res)){
+        $data_arr[] = $row;
+    }
+    foreach($data_arr as $row) {
+        $buy_price = (float)$row['buy_price'];
+        $position = (int)$row['position'];
+        $cur_price = ($buy_price - $cut_price) / (1 + $transfer_count);
+        $cur_position = (int)$position * (1 + $transfer_count);
+
+        // 更新数据
+        $row_id = $row['id'];
+        $sql = "update trade set position = $cur_position, buy_price = $cur_price where id=$row_id";
+        echo "transfer sql :" . $sql;
+        mysql_query($sql);
+    }
+}
+else if ($code) {
     $stockInfo = fetchStockInfo(array($code));
     if (isset($stockInfo[$code]) && $stockInfo[$code]['name'] != "") {
         db("stock");
