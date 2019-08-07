@@ -17,10 +17,12 @@ $size = 100;
 while(true) {
     $sql = "select * from trade where uid='$uid' and sell_time>$begin_time and sell_time<$end_time order by oper_time desc limit $start_index, $size";
     $res = mysql_query($sql);
+    $count = 0;
     while($row = mysql_fetch_assoc($res)){
         $order_arr[] = $row;
+        $count = $count + 1;
     }
-    if (count($order_arr) >= 100) {
+    if ($count >= 100) {
         $start_index += 100;
         continue;
     }
