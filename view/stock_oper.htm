@@ -67,7 +67,15 @@ function juge(theform) {
 	<input type="submit" value="修改">
 	</form>
 </div>
-
+<div class='input'>
+	<form method="POST">
+	<input type="hidden" name="oper" value="transfer" />
+	代码：<input type="text" name="code">
+	每股转增股数：<input type="text" name="transfer_count">
+	每股分红：<input type="text" name="cut_price">
+	<input type="submit" value="修改">
+	</form>
+</div>
 </br>
 <h4>交易记录</h4>
 <table cellpadding="20" cellspacing="10">

@@ -45,6 +45,13 @@ $db_map=array(
         'dtbs'=>'xdm406066684_db',
 		'charts'=>'utf8',
 	),
+    'stock'=>array(
+        'host'=>'xdm406066684.my3w.com',
+        'user'=>'xdm406066684',
+        'pass'=>'1234FDSA',
+        'dtbs'=>'xdm406066684_db',
+		'charts'=>'utf8',
+	),
 );
 
 function db($dbname){

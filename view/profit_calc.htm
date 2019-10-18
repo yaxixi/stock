@@ -1,0 +1,56 @@
+<{include file="./header.tpl"}>
+           
+<script type="text/javascript">
+function juge(theform) {
+	if (theform.success.value == "") {
+		alert("请输入成功率！");
+		theform.success.focus();
+		return false;
+	}
+	if (theform.gain.value == "") {
+		alert("请输入盈利率！");
+		theform.gain.focus();
+		return false;
+	}
+	if (theform.lose.value == "") {
+		alert("请输入亏损率！");
+		theform.lose.focus();
+		return false;
+	}
+}
+</script>  
+
+<div class='input'>
+	<form method="POST" onsubmit="return juge(this)">
+	初始金额：<input type="text" name="money" value="<{$money}>">
+	投资次数：<input type="text" name="count" value="<{$count}>">
+	成功率(0到1之间)：<input type="text" name="success" value="<{$success}>">
+	盈利率：<input type="text" name="gain" value="<{$gain}>">
+	亏损率：<input type="text" name="lose" value="<{$lose}>">
+	<input type="submit" value="计算">
+	</form>
+</div>
+</br>
+<h4>计算结果</h4>
+<table cellpadding="20" cellspacing="10">
+	<tr align="center">
+	    <th>计算方式</th>
+		<{foreach from = $arr key=key item = val}>
+		    <th><{$val.num}>次</th>
+		<{/foreach}>
+	</tr>
+	<tr align="center">
+		<td>固定金额</td>
+		<{foreach from = $arr key=key item = val}>
+		    <th><{$val.money1}></th>
+		<{/foreach}>
+	</tr>
+	<tr align="center">
+		<td>复利金额</td>
+		<{foreach from = $arr key=key item = val}>
+		    <th><{$val.money2}></th>
+		<{/foreach}>
+	</tr>
+</table>
+
+<{include file="./footer.tpl"}>
