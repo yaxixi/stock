@@ -60,47 +60,56 @@ else if ($code) {
             while($row = mysql_fetch_assoc($res)){
                 $data_arr[] = $row;
             }
+
             $flag = 0;
+            $total_buy_price = 0;
+            $sell_count = $count;
+            $delete_list = array();
+            $update_list = array();
             foreach($data_arr as $row) {
                 $flag = 1;
                 if ($count <= 0)
                     break;
                 if ($count >= (int)$row['position']) {
-                    // 插入新记录
-                    $profit = ((float)$price - (float)$row['buy_price']) * 100 / (float)$row['buy_price'];
-                    $profit_money = ((float)$price - (float)$row['buy_price']) * (int)$row['position'];
-                    $position = $row['position'];
-                    $buy_price = $row['buy_price'];
+                    $delete_list[] = $row['id'];
+                    $total_buy_price = $total_buy_price + (float)$row['buy_price'] * (int)$row['position'];
                     $buy_time = $row['buy_time'];
-                    $sql = "insert into trade (`uid`,`code`,`name`,`position`,`buy_price`,`buy_time`,`curr_price`,`sell_price`,`sell_time`,`oper_time`,`profit`,`profit_money`) values ('$uid','$code', '$name', $position, $buy_price, $buy_time, $curr_price, $price, $time, $time, $profit, $profit_money)";
-                    mysql_query($sql);
-
-                    // 删除旧记录
-                    $row_id = $row['id'];
-                    $sql = "delete from trade where id=$row_id";
-                    mysql_query($sql);
 
                     $count = $count - (int)$row['position'];
                 }
                 else {
-                    // 插入新记录
-                    $profit = ((float)$price - (float)$row['buy_price']) * 100 / (float)$row['buy_price'];
-                    $profit_money = ((float)$price - (float)$row['buy_price']) * $count;
-                    $buy_price = $row['buy_price'];
+                    $update_list[] = $row['id'];
+                    $total_buy_price = $total_buy_price + (float)$row['buy_price'] * $count;
                     $buy_time = $row['buy_time'];
-                    $sql = "insert into trade (`uid`,`code`,`name`,`position`,`buy_price`,`buy_time`,`curr_price`,`sell_price`,`sell_time`,`oper_time`,`profit`,`profit_money`) values ('$uid','$code', '$name', $count, $buy_price, $buy_time, $curr_price, $price, $time, $time, $profit, $profit_money)";
-                    mysql_query($sql);
-
-                    // 更新旧记录的 position
-                    $row_id = $row['id'];
-                    $sql = "update trade set position = position - $count where id=$row_id";
-                    mysql_query($sql);
-
                     break;
                 }
             }
+
             if ($flag == 0) {
                 alert("没有该代码对应的持仓！");
+            }
+
+            $buy_price = $total_buy_price / $sell_count;
+
+            // 插入新记录
+            $profit = ((float)$price - (float)$buy_price) * 100 / (float)$buy_price;
+            $profit_money = ((float)$price - (float)$buy_price) * (int)$sell_count;
+            $position = $sell_count;
+            $sql = "insert into trade (`uid`,`code`,`name`,`position`,`buy_price`,`buy_time`,`curr_price`,`sell_price`,`sell_time`,`oper_time`,`profit`,`profit_money`) values ('$uid','$code', '$name', $position, $buy_price, $buy_time, $curr_price, $price, $time, $time, $profit, $profit_money)";
+            mysql_query($sql);
+
+            // 删除购买记录
+            foreach($delete_list as $row_id) {
+                // 删除旧记录
+                $sql = "delete from trade where id=$row_id";
+                mysql_query($sql);
+            }
+
+            // 更新购买记录
+            foreach($update_list as $row_id) {
+                // 更新旧记录的 position
+                $sql = "update trade set position = position - $count where id=$row_id";
+                mysql_query($sql);
             }
         }
     }
