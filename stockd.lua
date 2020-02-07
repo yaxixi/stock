@@ -307,7 +307,9 @@ function fetch_stock_info(code_list)
         end
 
         if not flag then
-            if string.sub(code,0,1) == "6" then
+            if sizeof(code) < 6 then
+                table.insert(list, "hk" .. code);
+            elseif string.sub(code,0,1) == "6" or string.sub(code,0,1) == "5" then
                 table.insert(list, "sh" .. code);
             else
                 table.insert(list, "sz" .. code);
@@ -330,13 +332,21 @@ function fetch_stock_info(code_list)
         local str = string.match(ret, code .. "=\"([^\"]*)\"");
         if sizeof(str) > 0 then
             local arr = explode(str, ",");
+            local name, curr_price;
+            if sizeof(code) < 6 then
+                name = arr[2];
+                curr_price = arr[7];
+            else
+                name = arr[1];
+                curr_price = arr[4];
+            end
             stock_map[code] = {
-                name = arr[1],
-                curr_price = arr[4],
+                name = name,
+                curr_price = curr_price,
             }
             cached_stock_info[code] = {
-                name = arr[1],
-                curr_price = arr[4],
+                name = name,
+                curr_price = curr_price,
                 time = os.time(),
             }
         else

@@ -124,7 +124,10 @@ function sendHttpMessage($host, $port, $param) {
 function fetchStockInfo($code_list) {
     $list = array();
     foreach($code_list as $code) {
-        if (substr($code, 0, 1) == "6") {
+        if (strlen($code) < 6) {
+            $code = "hk" . $code;
+        }
+        else if (substr($code, 0, 1) == "6" || substr($code, 0, 1) == "5") {
             $code = "sh" . $code;
         }
         else {
@@ -140,9 +143,17 @@ function fetchStockInfo($code_list) {
         $arr = array();
         if (preg_match('/'.$code.'=\"(.*?)\"/s', $ret, $arr) == 1) {
             $code_info = explode(",", $arr[1]);
+            if (strlen($code) < 6) {
+                $name = $code_info[1];
+                $curr_price = $code_info[6];
+            }
+            else {
+                $name = $code_info[0];
+                $curr_price = $code_info[3];
+            }
             $stockInfo[$code] = array(
-                "name"=>$code_info[0],
-                "curr_price"=>$code_info[3],
+                "name"=>$name,
+                "curr_price"=>$curr_price,
             );
         }
     }
