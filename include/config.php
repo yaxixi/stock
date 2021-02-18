@@ -16,7 +16,7 @@ define("LANG", "zh"); //默认语言
 define("TIME_ZONE", "Asia/Shanghai"); //默认时区 具体值参考 http://php.net/manual/zh/timezones.asia.php
 define("PLATFORM", "dh"); // 渠道名称，需要和sdkConst.lua中的渠道标识一致（电魂版本礼包推送持续时间单位为小时）
 define('IS_CHANNEL_SERVER', 1); // 是否是渠道服。1：是  0：否（目前只有雷霆渠道服填1，其他服都填0）
-define('TONGJI_DB', "xdm406066684_db");
+define('TONGJI_DB', "mydb");
 
 /*
 $conninfo = array(//管理数据库
@@ -25,31 +25,31 @@ $conninfo = array(//管理数据库
 	"password" => "usbw",
 );*/
 $conninfo = array(//管理数据库
-	"host" => "xdm406066684.my3w.com",
-	"username" => "xdm406066684",
-	"password" => "1234FDSA",
+	"host" => "172.105.202.151",
+	"username" => "root",
+	"password" => "3981895",
 );
 
 $db_map=array(
 	'tongji'=>array(
-        'host'=>'xdm406066684.my3w.com',
-        'user'=>'xdm406066684',
-        'pass'=>'1234FDSA',
-        'dtbs'=>'xdm406066684_db',
+        'host'=>'172.105.202.151',
+        'user'=>'root',
+        'pass'=>'3981895',
+        'dtbs'=>'mydb',
 		'charts'=>'utf8',
 	),
 	'mpay'=>array(
-        'host'=>'xdm406066684.my3w.com',
-        'user'=>'xdm406066684',
-        'pass'=>'1234FDSA',
-        'dtbs'=>'xdm406066684_db',
+        'host'=>'172.105.202.151',
+        'user'=>'root',
+        'pass'=>'3981895',
+        'dtbs'=>'mydb',
 		'charts'=>'utf8',
 	),
     'stock'=>array(
-        'host'=>'xdm406066684.my3w.com',
-        'user'=>'xdm406066684',
-        'pass'=>'1234FDSA',
-        'dtbs'=>'xdm406066684_db',
+        'host'=>'172.105.202.151',
+        'user'=>'root',
+        'pass'=>'3981895',
+        'dtbs'=>'mydb',
 		'charts'=>'utf8',
 	),
 );
